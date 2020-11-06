@@ -43,7 +43,7 @@ const TaskList = () => {
               <Button variant="danger" onClick={handleRemoveTask(task.id)}>Delete Task</Button>
               <Button type="button" variant="primary" onClick={handleRenameTask(task.id)}>Rename Task</Button>
             </Card.Body>
-            <Card.Footer className="text-muted">2 days ago</Card.Footer>
+            <Card.Footer className="text-muted">{task.id}</Card.Footer>
           </Card>);
           }
           if ((filter === 'all' || filter === 'completed') && task.stateTask === 'done') {
@@ -59,7 +59,7 @@ const TaskList = () => {
               <Button variant="danger" onClick={handleRemoveTask(task.id)}>Delete Task</Button>
               <Button type="button" variant="primary" onClick={handleRenameTask(task.id)}>Rename Task</Button>
             </Card.Body>
-            <Card.Footer className="text-muted">2 days ago</Card.Footer>
+          <Card.Footer className="text-muted">{task.id}</Card.Footer>
           </Card>);
           }
           return null;

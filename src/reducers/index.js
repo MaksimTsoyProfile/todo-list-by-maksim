@@ -74,6 +74,24 @@ const tasks = handleActions({
     }, {});
     return states;
   },
+  [actions.cancelRename](state, { payload }) {
+    const states = Object.keys(state).reduce((acc, key) => {
+      if (key === payload) {
+        return {
+          ...acc,
+          [key]: {
+            ...state[key],
+            rename: false,
+          },
+        };
+      }
+      return {
+        ...state,
+        ...acc,
+      };
+    }, {});
+    return states;
+  },
   [actions.changeTask](state, { payload }) {
     const states = Object.keys(state).reduce((acc, key) => {
       if (key === payload.id) {

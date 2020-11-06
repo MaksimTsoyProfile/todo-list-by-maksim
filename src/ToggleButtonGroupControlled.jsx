@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ToggleButton, ButtonGroup } from 'react-bootstrap';
 import { filterAll, filterActive, filterCompleted } from './actions';
 
 const ToggleButtonGroupControlled = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState(1);
-  const handleChange = (val) => setValue(val);
   const onClickAll = () => {
     dispatch(filterAll());
   };
@@ -16,12 +14,33 @@ const ToggleButtonGroupControlled = () => {
   const onClickCompleted = () => {
     dispatch(filterCompleted());
   };
+  const [radioValue, setRadioValue] = useState('1');
+
+  const radios = [
+    { name: 'All', value: '1', clickButton: onClickAll },
+    { name: 'Active', value: '2', clickButton: onClickActive },
+    { name: 'Completed', value: '3', clickButton: onClickCompleted },
+  ];
+
   return (
-    <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
-      <ToggleButton value={1} onClick={onClickAll} >All</ToggleButton>
-      <ToggleButton value={2} onClick={onClickActive}>Active</ToggleButton>
-      <ToggleButton value={3} onClick={onClickCompleted}>Completed</ToggleButton>
-    </ToggleButtonGroup>
+    <>
+      <ButtonGroup toggle>
+        {radios.map((radio, idx) => (
+          <ToggleButton
+            key={idx}
+            type="radio"
+            variant="secondary"
+            name="radio"
+            value={radio.value}
+            checked={radioValue === radio.value}
+            onChange={(e) => setRadioValue(e.currentTarget.value)}
+            onClick={radio.clickButton}
+          >
+            {radio.name}
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+    </>
   );
 };
 

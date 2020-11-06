@@ -7,45 +7,40 @@ import { addTask } from './actions';
 const FormApp = () => {
   const dispatch = useDispatch();
 
-  const onSubmit = async (values) => {
+  const onSubmit = (values, form) => {
     dispatch(addTask({ name: values.username, description: values.description }));
+    setTimeout(form.restart);
+  };
+
+  const validate = (values) => {
+    if (!values.description && !values.username) {
+      return {
+        description: 'Required',
+        username: 'Required',
+      };
+    }
+    if (!values.username) {
+      console.log(values);
+      return {
+        username: 'Required',
+      };
+    }
+    if (!values.description) {
+      return {
+        description: 'Required',
+      };
+    }
+    return {};
   };
 
   return (
     <RFForm
     onSubmit={onSubmit}
-    validate={(values) => {
-      const errors = {};
-      if (!values.description && !values.username) {
-        return {
-          ...errors,
-          description: 'Required',
-          username: 'Required',
-        };
-      }
-      if (!values.username) {
-        return {
-          ...errors,
-          username: 'Required',
-        };
-      }
-      if (!values.description) {
-        return {
-          ...errors,
-          description: 'Required',
-        };
-      }
-      return errors;
-    }}
+    validate={validate}
     >
-      {({
-        handleSubmit, form,
-      }) => (
+      {({ handleSubmit }) => (
         <>
-          <Form onSubmit={async (e) => {
-            const r = handleSubmit(e);
-            if (r) r.then(() => form.reset());
-          }}
+          <Form onSubmit={handleSubmit}
           className="text-center">
             <Form.Group controlId="formGroupText1">
               <Form.Label>Enter name</Form.Label>
